@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="logo-sawo.png">
+<title>SAWO Hub</title>
+<style>
+  :root{
+    --bg-top:#eef0fb;
+    --bg-bottom:#e4e7f6;
+    --card-bg:#ffffff;
+    --card-border:#e8e8ef;
+    --text:#3a3a4a;
+    --label:#4a4a5a;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-hover: 0 8px 20px rgba(60,60,100,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    padding:0;
+    height:100%;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+    color:var(--text);
+    overflow-x:hidden;
+  }
+  body{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:100%;
+  }
+  .bg-hub{
+    position:fixed;
+    right:-140px;
+    bottom:-140px;
+    width:min(720px, 85vw);
+    height:auto;
+    opacity:0.5;
+    pointer-events:none;
+    z-index:0;
+  }
+  .bg-hub .spin{
+    transform-origin:400px 420px;
+    animation:hub-spin 150s linear infinite;
+  }
+  .bg-hub .spin-rev{
+    transform-origin:400px 420px;
+    animation:hub-spin 200s linear infinite reverse;
+  }
+  @keyframes hub-spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){
+    .bg-hub .spin, .bg-hub .spin-rev{ animation:none; }
+  }
+  header, main{
+    position:relative;
+    z-index:1;
+  }
+  header{
+    padding:28px 40px 8px 40px;
+    text-align:center;
+  }
+  header .brand{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  header .brand img{
+    width:30px;
+    height:30px;
+    object-fit:contain;
+  }
+  header h1{
+    font-size:22px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.2px;
+    color:#33334a;
+  }
+  header p{
+    margin:4px 0 0 0;
+    font-size:13px;
+    color:#8888a0;
+  }
+  main{
+    padding:20px 40px 60px 40px;
+    display:flex;
+    justify-content:center;
+    width:100%;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4, 136px);
+    gap:22px 26px;
+    justify-content:center;
+    max-width:960px;
+  }
+  a.tile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-decoration:none;
+    color:inherit;
+    outline:none;
+  }
+  .icon-box{
+    width:92px;
+    height:92px;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  a.tile:hover .icon-box{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-hover);
+  }
+  a.tile:active .icon-box{
+    transform:translateY(0);
+  }
+  .icon-box svg{
+    width:48px;
+    height:48px;
+  }
+  .label{
+    margin-top:10px;
+    font-size:13px;
+    font-weight:500;
+    color:var(--label);
+    text-align:center;
+    line-height:1.3;
+    max-width:120px;
+  }
+  .badge{
+    font-size:9px;
+    font-weight:600;
+    color:#9a7b00;
+    background:#fff3cd;
+    border-radius:6px;
+    padding:1px 6px;
+    margin-top:4px;
+    display:inline-block;
+  }
+</style>
+</head>
+<body>
+
+<svg class="bg-hub" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="hubStroke" x1="0" y1="0" x2="800" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C8CF0"/>
+      <stop offset="0.5" stop-color="#5BA8F7"/>
+      <stop offset="1" stop-color="#8E7CF0"/>
+    </linearGradient>
+    <linearGradient id="hubStroke2" x1="800" y1="0" x2="0" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34D1B0"/>
+      <stop offset="1" stop-color="#5BA8F7"/>
+    </linearGradient>
+    <radialGradient id="hubGlow" cx="420" cy="420" r="340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9AA8F5" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#9AA8F5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- soft glow -->
+  <circle cx="420" cy="420" r="340" fill="url(#hubGlow)"/>
+
+  <!-- faint off-center accent orbit -->
+  <g class="spin-rev">
+    <ellipse cx="460" cy="360" rx="330" ry="300" stroke="url(#hubStroke)" stroke-width="2" stroke-dasharray="1 14" stroke-linecap="round" stroke-opacity="0.6"/>
+  </g>
+
+  <!-- bond lines connecting the ion clusters, irregular thickness -->
+  <g stroke-linecap="round">
+    <line x1="400" y1="420" x2="590" y2="300" stroke="url(#hubStroke)" stroke-width="6"/>
+    <line x1="400" y1="420" x2="650" y2="490" stroke="url(#hubStroke)" stroke-width="5"/>
+    <line x1="400" y1="420" x2="520" y2="590" stroke="url(#hubStroke2)" stroke-width="7"/>
+    <line x1="400" y1="420" x2="300" y2="560" stroke="url(#hubStroke)" stroke-width="4"/>
+    <line x1="400" y1="420" x2="190" y2="430" stroke="url(#hubStroke2)" stroke-width="6"/>
+    <line x1="590" y1="300" x2="470" y2="185" stroke="url(#hubStroke)" stroke-width="5"/>
+    <line x1="190" y1="430" x2="250" y2="250" stroke="url(#hubStroke)" stroke-width="4"/>
+    <line x1="520" y1="590" x2="630" y2="650" stroke="url(#hubStroke2)" stroke-width="4"/>
+    <line x1="190" y1="430" x2="130" y2="610" stroke="url(#hubStroke)" stroke-width="3"/>
+  </g>
+
+  <!-- irregular interlinking rings: varied sizes, thick outlines, scattered placement -->
+  <g class="spin">
+    <circle cx="400" cy="420" r="155" stroke="url(#hubStroke)"  stroke-width="8"/>
+    <circle cx="590" cy="300" r="95"  stroke="url(#hubStroke2)" stroke-width="7"/>
+    <circle cx="650" cy="490" r="78"  stroke="url(#hubStroke)"  stroke-width="5"/>
+    <circle cx="520" cy="590" r="118" stroke="url(#hubStroke2)" stroke-width="7"/>
+    <circle cx="300" cy="560" r="88"  stroke="url(#hubStroke)"  stroke-width="6"/>
+    <circle cx="190" cy="430" r="112" stroke="url(#hubStroke2)" stroke-width="8"/>
+    <circle cx="250" cy="250" r="72"  stroke="url(#hubStroke)"  stroke-width="5"/>
+    <circle cx="470" cy="185" r="58"  stroke="url(#hubStroke2)" stroke-width="6"/>
+    <circle cx="630" cy="650" r="48"  stroke="url(#hubStroke)"  stroke-width="4"/>
+    <circle cx="130" cy="610" r="40"  stroke="url(#hubStroke2)" stroke-width="4"/>
+
+    <!-- ion nodes: scattered, uneven sizes, bold outline -->
+    <g fill="#ffffff">
+      <circle cx="400" cy="420" r="13" stroke="url(#hubStroke)"  stroke-width="5"/>
+      <circle cx="590" cy="300" r="10" stroke="url(#hubStroke2)" stroke-width="4"/>
+      <circle cx="650" cy="490" r="8"  stroke="url(#hubStroke)"  stroke-width="4"/>
+      <circle cx="520" cy="590" r="12" stroke="url(#hubStroke2)" stroke-width="5"/>
+      <circle cx="300" cy="560" r="9"  stroke="url(#hubStroke)"  stroke-width="4"/>
+      <circle cx="190" cy="430" r="11" stroke="url(#hubStroke2)" stroke-width="5"/>
+      <circle cx="470" cy="185" r="7"  stroke="url(#hubStroke2)" stroke-width="3.5"/>
+      <circle cx="630" cy="650" r="6"  stroke="url(#hubStroke)"  stroke-width="3"/>
+      <circle cx="130" cy="610" r="6"  stroke="url(#hubStroke2)" stroke-width="3"/>
+      <circle cx="250" cy="250" r="7"  stroke="url(#hubStroke)"  stroke-width="3.5"/>
+    </g>
+  </g>
+
+  <!-- a few free-floating ions, not attached to anything -->
+  <g fill="#ffffff">
+    <circle cx="700" cy="360" r="5" stroke="url(#hubStroke)" stroke-width="3"/>
+    <circle cx="120" cy="300" r="4" stroke="url(#hubStroke2)" stroke-width="2.5"/>
+    <circle cx="560" cy="690" r="4.5" stroke="url(#hubStroke)" stroke-width="3"/>
+  </g>
+</svg>
+
+<header>
+  <div class="brand">
+    <img src="logo-sawo.png" alt="SAWO logo">
+    <h1>SAWO Hub</h1>
+  </div>
+  <p>Internal tools &amp; systems</p>
+</header>
+
+<main>
+  <div class="grid">
+
+    <a class="tile" href="https://www.sawo.com/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="19" fill="url(#g8)"/>
+          <ellipse cx="24" cy="24" rx="8" ry="19" stroke="#ffffff" stroke-opacity="0.7" stroke-width="1.6" fill="none"/>
+          <path d="M5 24 H43" stroke="#ffffff" stroke-opacity="0.7" stroke-width="1.6"/>
+          <path d="M8 15 C13 18 35 18 40 15" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.4" fill="none"/>
+          <path d="M8 33 C13 30 35 30 40 33" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.4" fill="none"/>
+          <defs>
+            <linearGradient id="g8" x1="5" y1="5" x2="43" y2="43" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#5BA8F7"/>
+              <stop offset="1" stop-color="#2E6FCC"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">sawo.com</div>
+    </a>
+
+    <a class="tile" href="http://172.16.2.68:7000/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="8" width="40" height="26" rx="4" fill="#5B8DEF"/>
+          <rect x="4" y="8" width="40" height="26" rx="4" fill="url(#g1)"/>
+          <path d="M10 28 L18 18 L24 24 L32 12 L38 20" stroke="#ffffff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="18" y="36" width="12" height="3" rx="1.5" fill="#8CA6D6"/>
+          <rect x="14" y="40" width="20" height="3" rx="1.5" fill="#8CA6D6"/>
+          <defs>
+            <linearGradient id="g1" x1="4" y1="8" x2="44" y2="34" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6C9CF7"/>
+              <stop offset="1" stop-color="#3E6FD9"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">Output Monitoring</div>
+    </a>
+
+    <a class="tile" href="http://172.16.2.68:3100/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 5 L42 15 V33 L24 43 L6 33 V15 Z" fill="url(#g2)"/>
+          <path d="M24 5 L42 15 L24 25 L6 15 Z" fill="#C98A4B"/>
+          <path d="M6 15 L24 25 V43 L6 33 Z" fill="#8B5A2B"/>
+          <path d="M42 15 L24 25 V43 L42 33 Z" fill="#A96E37"/>
+          <defs>
+            <linearGradient id="g2" x1="6" y1="5" x2="42" y2="43" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#C98A4B"/>
+              <stop offset="1" stop-color="#8B5A2B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">Wood Working Inventory System</div>
+    </a>
+
+    <a class="tile" href="https://sawo-chatbot.vercel.app/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 10 C6 7.8 7.8 6 10 6 H38 C40.2 6 42 7.8 42 10 V28 C42 30.2 40.2 32 38 32 H18 L9 40 V32 H10 C7.8 32 6 30.2 6 28 Z" fill="url(#g3)"/>
+          <circle cx="17" cy="19" r="2.6" fill="#ffffff"/>
+          <circle cx="24" cy="19" r="2.6" fill="#ffffff"/>
+          <circle cx="31" cy="19" r="2.6" fill="#ffffff"/>
+          <defs>
+            <linearGradient id="g3" x1="6" y1="6" x2="42" y2="40" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FF8A5B"/>
+              <stop offset="1" stop-color="#E8594A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">SAWO Chatbot</div>
+    </a>
+
+    <a class="tile" href="http://172.16.2.68:8000" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="14" width="38" height="20" rx="3" fill="url(#g5)"/>
+          <rect x="9" y="18" width="2.4" height="12" fill="#ffffff"/>
+          <rect x="13" y="18" width="1.2" height="12" fill="#ffffff"/>
+          <rect x="16" y="18" width="2.4" height="12" fill="#ffffff"/>
+          <rect x="20" y="18" width="1.2" height="12" fill="#ffffff"/>
+          <rect x="23" y="18" width="3" height="12" fill="#ffffff"/>
+          <rect x="28" y="18" width="1.2" height="12" fill="#ffffff"/>
+          <rect x="31" y="18" width="2.4" height="12" fill="#ffffff"/>
+          <rect x="35" y="18" width="1.2" height="12" fill="#ffffff"/>
+          <defs>
+            <linearGradient id="g5" x1="5" y1="14" x2="43" y2="34" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#5B5B6B"/>
+              <stop offset="1" stop-color="#2E2E3A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">Serial Number Automation</div>
+    </a>
+
+    <a class="tile" href="http://172.16.2.68:3000/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="19" fill="url(#g7)"/>
+          <path d="M24 10 V38 M10 24 H38" stroke="#ffffff" stroke-width="1.6" stroke-opacity="0.6"/>
+          <path d="M14 34 L34 14" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="14" cy="34" r="3" fill="#ffffff"/>
+          <circle cx="34" cy="14" r="3" fill="#ffffff"/>
+          <defs>
+            <linearGradient id="g7" x1="5" y1="5" x2="43" y2="43" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#34D1B0"/>
+              <stop offset="1" stop-color="#1C9E85"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">CADQ – Drawing for R&amp;D</div>
+    </a>
+
+    <a class="tile" href="downloads/QualityPointTool.exe" download>
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="9" y="4" width="30" height="40" rx="3" fill="url(#g4)"/>
+          <rect x="14" y="11" width="20" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.85"/>
+          <rect x="14" y="18" width="20" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="14" y="25" width="12" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.65"/>
+          <circle cx="32" cy="36" r="9" fill="#2FAE66"/>
+          <path d="M28 36 L31 39 L37 32" stroke="#ffffff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="g4" x1="9" y1="4" x2="39" y2="44" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#8E7CF0"/>
+              <stop offset="1" stop-color="#6450C9"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">QCP Tool for QA</div>
+      <span class="badge">Download .exe</span>
+    </a>
+
+    <a class="tile" href="downloads/SAWO%20Packing%20List%20Invoice%20Generator.exe" download>
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="10" width="36" height="28" rx="3" fill="url(#g6)"/>
+          <path d="M6 16 H42" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+          <rect x="11" y="21" width="16" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.85"/>
+          <rect x="11" y="26" width="20" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="11" y="31" width="10" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.65"/>
+          <circle cx="34" cy="29" r="6" fill="#FFC94A"/>
+          <text x="34" y="32" font-size="7" font-family="Arial" font-weight="bold" fill="#8a5a00" text-anchor="middle">$</text>
+          <defs>
+            <linearGradient id="g6" x1="6" y1="10" x2="42" y2="38" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#4FB0E0"/>
+              <stop offset="1" stop-color="#2E7FB8"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">IMPEX Automation</div>
+      <span class="badge">Download .exe</span>
+    </a>
+
+  </div>
+</main>
+
+</body>
+</html>
