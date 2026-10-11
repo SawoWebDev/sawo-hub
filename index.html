@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="logo-sawo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>SAWO Hub</title>
 <style>
   :root{
@@ -21,7 +24,7 @@
     margin:0;
     padding:0;
     height:100%;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:'Montserrat',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
     color:var(--text);
     overflow-x:hidden;
@@ -36,23 +39,19 @@
     position:fixed;
     right:-140px;
     bottom:-140px;
-    width:min(720px, 85vw);
+    width:min(560px, 70vw);
     height:auto;
-    opacity:0.5;
+    opacity:0.1;
     pointer-events:none;
     z-index:0;
   }
   .bg-hub .spin{
-    transform-origin:400px 420px;
-    animation:hub-spin 150s linear infinite;
-  }
-  .bg-hub .spin-rev{
-    transform-origin:400px 420px;
-    animation:hub-spin 200s linear infinite reverse;
+    transform-origin:250px 250px;
+    animation:hub-spin 200s linear infinite;
   }
   @keyframes hub-spin{ to{ transform:rotate(360deg); } }
   @media (prefers-reduced-motion: reduce){
-    .bg-hub .spin, .bg-hub .spin-rev{ animation:none; }
+    .bg-hub .spin{ animation:none; }
   }
   header, main{
     position:relative;
@@ -148,81 +147,121 @@
     margin-top:4px;
     display:inline-block;
   }
+  #gate{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+  }
+  .gate-box{
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:18px;
+    box-shadow:var(--shadow-hover);
+    padding:36px 32px;
+    width:260px;
+    text-align:center;
+  }
+  .gate-box img{
+    width:40px;
+    height:40px;
+    object-fit:contain;
+    margin-bottom:10px;
+  }
+  .gate-box h2{
+    margin:0 0 4px 0;
+    font-size:18px;
+    color:#33334a;
+  }
+  .gate-box p{
+    margin:0 0 18px 0;
+    font-size:12.5px;
+    color:#8888a0;
+  }
+  .gate-box input{
+    width:100%;
+    box-sizing:border-box;
+    padding:10px 12px;
+    font-size:16px;
+    letter-spacing:1px;
+    text-align:center;
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    outline:none;
+    margin-bottom:12px;
+  }
+  .gate-box input:focus{
+    border-color:#8E7CF0;
+  }
+  .gate-box button{
+    width:100%;
+    padding:10px 12px;
+    font-size:14px;
+    font-weight:600;
+    color:#ffffff;
+    background:linear-gradient(135deg, #6C9CF7, #6450C9);
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  .gate-box button:hover{
+    opacity:0.92;
+  }
+  #gate-error{
+    display:none;
+    color:#e8594a;
+    font-size:12px;
+    margin:10px 0 0 0;
+  }
+  #hub-content{
+    display:none;
+  }
 </style>
 </head>
 <body>
 
-<svg class="bg-hub" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <defs>
-    <linearGradient id="hubStroke" x1="0" y1="0" x2="800" y2="800" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#7C8CF0"/>
-      <stop offset="0.5" stop-color="#5BA8F7"/>
-      <stop offset="1" stop-color="#8E7CF0"/>
-    </linearGradient>
-    <linearGradient id="hubStroke2" x1="800" y1="0" x2="0" y2="800" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#34D1B0"/>
-      <stop offset="1" stop-color="#5BA8F7"/>
-    </linearGradient>
-    <radialGradient id="hubGlow" cx="420" cy="420" r="340" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#9AA8F5" stop-opacity="0.35"/>
-      <stop offset="1" stop-color="#9AA8F5" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
+<div id="gate">
+  <div class="gate-box">
+    <img src="logo-sawo.png" alt="SAWO logo">
+    <h2>SAWO Hub</h2>
+    <p>Enter password to continue</p>
+    <input type="password" id="pin" placeholder="Password" autocomplete="off">
+    <button id="unlock">Unlock</button>
+    <p id="gate-error">Incorrect password</p>
+  </div>
+</div>
 
-  <!-- soft glow -->
-  <circle cx="420" cy="420" r="340" fill="url(#hubGlow)"/>
+<div id="hub-content">
 
-  <!-- faint off-center accent orbit -->
-  <g class="spin-rev">
-    <ellipse cx="460" cy="360" rx="330" ry="300" stroke="url(#hubStroke)" stroke-width="2" stroke-dasharray="1 14" stroke-linecap="round" stroke-opacity="0.6"/>
-  </g>
-
-  <!-- bond lines connecting the ion clusters, irregular thickness -->
-  <g stroke-linecap="round">
-    <line x1="400" y1="420" x2="590" y2="300" stroke="url(#hubStroke)" stroke-width="6"/>
-    <line x1="400" y1="420" x2="650" y2="490" stroke="url(#hubStroke)" stroke-width="5"/>
-    <line x1="400" y1="420" x2="520" y2="590" stroke="url(#hubStroke2)" stroke-width="7"/>
-    <line x1="400" y1="420" x2="300" y2="560" stroke="url(#hubStroke)" stroke-width="4"/>
-    <line x1="400" y1="420" x2="190" y2="430" stroke="url(#hubStroke2)" stroke-width="6"/>
-    <line x1="590" y1="300" x2="470" y2="185" stroke="url(#hubStroke)" stroke-width="5"/>
-    <line x1="190" y1="430" x2="250" y2="250" stroke="url(#hubStroke)" stroke-width="4"/>
-    <line x1="520" y1="590" x2="630" y2="650" stroke="url(#hubStroke2)" stroke-width="4"/>
-    <line x1="190" y1="430" x2="130" y2="610" stroke="url(#hubStroke)" stroke-width="3"/>
-  </g>
-
-  <!-- irregular interlinking rings: varied sizes, thick outlines, scattered placement -->
+<svg class="bg-hub" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <g class="spin">
-    <circle cx="400" cy="420" r="155" stroke="url(#hubStroke)"  stroke-width="8"/>
-    <circle cx="590" cy="300" r="95"  stroke="url(#hubStroke2)" stroke-width="7"/>
-    <circle cx="650" cy="490" r="78"  stroke="url(#hubStroke)"  stroke-width="5"/>
-    <circle cx="520" cy="590" r="118" stroke="url(#hubStroke2)" stroke-width="7"/>
-    <circle cx="300" cy="560" r="88"  stroke="url(#hubStroke)"  stroke-width="6"/>
-    <circle cx="190" cy="430" r="112" stroke="url(#hubStroke2)" stroke-width="8"/>
-    <circle cx="250" cy="250" r="72"  stroke="url(#hubStroke)"  stroke-width="5"/>
-    <circle cx="470" cy="185" r="58"  stroke="url(#hubStroke2)" stroke-width="6"/>
-    <circle cx="630" cy="650" r="48"  stroke="url(#hubStroke)"  stroke-width="4"/>
-    <circle cx="130" cy="610" r="40"  stroke="url(#hubStroke2)" stroke-width="4"/>
-
-    <!-- ion nodes: scattered, uneven sizes, bold outline -->
-    <g fill="#ffffff">
-      <circle cx="400" cy="420" r="13" stroke="url(#hubStroke)"  stroke-width="5"/>
-      <circle cx="590" cy="300" r="10" stroke="url(#hubStroke2)" stroke-width="4"/>
-      <circle cx="650" cy="490" r="8"  stroke="url(#hubStroke)"  stroke-width="4"/>
-      <circle cx="520" cy="590" r="12" stroke="url(#hubStroke2)" stroke-width="5"/>
-      <circle cx="300" cy="560" r="9"  stroke="url(#hubStroke)"  stroke-width="4"/>
-      <circle cx="190" cy="430" r="11" stroke="url(#hubStroke2)" stroke-width="5"/>
-      <circle cx="470" cy="185" r="7"  stroke="url(#hubStroke2)" stroke-width="3.5"/>
-      <circle cx="630" cy="650" r="6"  stroke="url(#hubStroke)"  stroke-width="3"/>
-      <circle cx="130" cy="610" r="6"  stroke="url(#hubStroke2)" stroke-width="3"/>
-      <circle cx="250" cy="250" r="7"  stroke="url(#hubStroke)"  stroke-width="3.5"/>
+    <!-- spokes from center to each outer node -->
+    <g stroke="#232748" stroke-width="14" stroke-linecap="round">
+      <line x1="250" y1="250" x2="250" y2="80"/>
+      <line x1="250" y1="250" x2="397" y2="165"/>
+      <line x1="250" y1="250" x2="397" y2="335"/>
+      <line x1="250" y1="250" x2="250" y2="420"/>
+      <line x1="250" y1="250" x2="103" y2="335"/>
+      <line x1="250" y1="250" x2="103" y2="165"/>
     </g>
-  </g>
 
-  <!-- a few free-floating ions, not attached to anything -->
-  <g fill="#ffffff">
-    <circle cx="700" cy="360" r="5" stroke="url(#hubStroke)" stroke-width="3"/>
-    <circle cx="120" cy="300" r="4" stroke="url(#hubStroke2)" stroke-width="2.5"/>
-    <circle cx="560" cy="690" r="4.5" stroke="url(#hubStroke)" stroke-width="3"/>
+    <!-- mask the spoke stubs behind the hub -->
+    <circle cx="250" cy="250" r="58" fill="#f3f4fb"/>
+
+    <!-- central hub: ring + solid core -->
+    <circle cx="250" cy="250" r="58" fill="none" stroke="#232748" stroke-width="18"/>
+    <circle cx="250" cy="250" r="30" fill="#232748"/>
+
+    <!-- outer nodes: alternating hollow / solid -->
+    <circle cx="250" cy="80"  r="26" fill="none" stroke="#232748" stroke-width="11"/>
+    <circle cx="397" cy="165" r="32" fill="#232748"/>
+    <circle cx="397" cy="335" r="28" fill="none" stroke="#232748" stroke-width="11"/>
+    <circle cx="250" cy="420" r="40" fill="#232748"/>
+    <circle cx="103" cy="335" r="28" fill="none" stroke="#232748" stroke-width="11"/>
+    <circle cx="103" cy="165" r="32" fill="#232748"/>
   </g>
 </svg>
 
@@ -396,8 +435,84 @@
       <span class="badge">Download .exe</span>
     </a>
 
+    <a class="tile" href="http://172.16.2.68:8090/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="8" width="36" height="32" rx="4" fill="url(#g9)"/>
+          <rect x="12" y="15" width="24" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.85"/>
+          <rect x="12" y="21" width="24" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="12" y="27" width="16" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="12" y="33" width="10" height="3" rx="1.5" fill="#ffffff" fill-opacity="0.65"/>
+          <defs>
+            <linearGradient id="g9" x1="6" y1="8" x2="42" y2="40" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#A86BF0"/>
+              <stop offset="1" stop-color="#7A3FCC"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">Odoo SO</div>
+    </a>
+
+    <a class="tile" href="http://172.16.2.68:3001/" target="_blank" rel="noopener">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7" y="6" width="34" height="36" rx="3" fill="url(#g10)"/>
+          <path d="M7 6 L7 42" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+          <rect x="13" y="13" width="20" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.85"/>
+          <rect x="13" y="19" width="20" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="13" y="25" width="14" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.65"/>
+          <rect x="13" y="31" width="20" height="2.6" rx="1.3" fill="#ffffff" fill-opacity="0.65"/>
+          <defs>
+            <linearGradient id="g10" x1="7" y1="6" x2="41" y2="42" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#F2A74B"/>
+              <stop offset="1" stop-color="#D47F1F"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">SAWO Playbook</div>
+    </a>
+
   </div>
 </main>
+
+</div>
+
+<script>
+(function(){
+  var PIN = "adminSAWO!";
+  var gate = document.getElementById('gate');
+  var content = document.getElementById('hub-content');
+  var input = document.getElementById('pin');
+  var btn = document.getElementById('unlock');
+  var err = document.getElementById('gate-error');
+
+  function unlock(){
+    if(input.value === PIN){
+      try{ localStorage.setItem('sawoHubUnlocked','1'); }catch(e){}
+      gate.style.display = 'none';
+      content.style.display = 'contents';
+    } else {
+      err.style.display = 'block';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  btn.addEventListener('click', unlock);
+  input.addEventListener('keydown', function(e){ if(e.key === 'Enter') unlock(); });
+
+  var alreadyUnlocked = false;
+  try{ alreadyUnlocked = localStorage.getItem('sawoHubUnlocked') === '1'; }catch(e){}
+  if(alreadyUnlocked){
+    gate.style.display = 'none';
+    content.style.display = 'contents';
+  } else {
+    input.focus();
+  }
+})();
+</script>
 
 </body>
 </html>
