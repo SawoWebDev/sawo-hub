@@ -41,7 +41,7 @@
     bottom:-140px;
     width:min(560px, 70vw);
     height:auto;
-    opacity:0.1;
+    opacity:0.16;
     pointer-events:none;
     z-index:0;
   }
@@ -104,6 +104,35 @@
     text-decoration:none;
     color:inherit;
     outline:none;
+    position:relative;
+  }
+  a.tile[data-tip]::after{
+    content:attr(data-tip);
+    position:absolute;
+    bottom:calc(100% + 8px);
+    left:50%;
+    transform:translate(-50%, 4px);
+    width:220px;
+    padding:8px 10px;
+    background:#2f2f44;
+    color:#ffffff;
+    font-size:11.5px;
+    font-weight:500;
+    line-height:1.45;
+    text-align:center;
+    border-radius:8px;
+    box-shadow:0 6px 18px rgba(30,30,60,0.22);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity 0.15s ease, transform 0.15s ease;
+    z-index:5;
+  }
+  a.tile[data-tip]:hover::after,
+  a.tile[data-tip]:focus-visible::after{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%, 0);
   }
   .icon-box{
     width:92px;
@@ -146,6 +175,10 @@
     padding:1px 6px;
     margin-top:4px;
     display:inline-block;
+  }
+  .badge.hold{
+    color:#a12b2b;
+    background:#fde1e1;
   }
   #gate{
     position:fixed;
@@ -276,7 +309,7 @@
 <main>
   <div class="grid">
 
-    <a class="tile" href="https://www.sawo.com/" target="_blank" rel="noopener">
+    <a class="tile" href="https://www.sawo.com/" target="_blank" rel="noopener" data-tip="SAWO's main public website: sauna heaters, products and company information.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="24" cy="24" r="19" fill="url(#g8)"/>
@@ -295,7 +328,7 @@
       <div class="label">sawo.com</div>
     </a>
 
-    <a class="tile" href="http://172.16.2.68:7000/" target="_blank" rel="noopener">
+    <a class="tile" href="http://172.16.2.68:3200/" target="_blank" rel="noopener" data-tip="Take a photo of a handwritten production whiteboard and AI turns it into an editable Excel sheet, filed by plant, area, section and day.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="4" y="8" width="40" height="26" rx="4" fill="#5B8DEF"/>
@@ -314,7 +347,7 @@
       <div class="label">Output Monitoring</div>
     </a>
 
-    <a class="tile" href="http://172.16.2.68:3100/" target="_blank" rel="noopener">
+    <a class="tile" href="http://172.16.2.68:3100/" target="_blank" rel="noopener" data-tip="Tracks wood stock (pieces and CBM by pallet) and patch stock (by box), with dated IN/OUT movements, balances and reports.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M24 5 L42 15 V33 L24 43 L6 33 V15 Z" fill="url(#g2)"/>
@@ -332,7 +365,7 @@
       <div class="label">Wood Working Inventory System</div>
     </a>
 
-    <a class="tile" href="https://sawo-chatbot.vercel.app/" target="_blank" rel="noopener">
+    <a class="tile" href="https://sawo-chatbot.vercel.app/" target="_blank" rel="noopener" data-tip="Admin panel for Maya, the AI chat assistant on sawo.com: answers visitors in their language, collects inquiries, and logs conversations and costs.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 10 C6 7.8 7.8 6 10 6 H38 C40.2 6 42 7.8 42 10 V28 C42 30.2 40.2 32 38 32 H18 L9 40 V32 H10 C7.8 32 6 30.2 6 28 Z" fill="url(#g3)"/>
@@ -350,7 +383,7 @@
       <div class="label">SAWO Chatbot</div>
     </a>
 
-    <a class="tile" href="http://172.16.2.68:8000" target="_blank" rel="noopener">
+    <a class="tile" href="http://172.16.2.68:8000" target="_blank" rel="noopener" data-tip="Automates generating and assigning serial numbers for SAWO products.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="5" y="14" width="38" height="20" rx="3" fill="url(#g5)"/>
@@ -373,7 +406,7 @@
       <div class="label">Serial Number Automation</div>
     </a>
 
-    <a class="tile" href="http://172.16.2.68:3000/" target="_blank" rel="noopener">
+    <a class="tile" href="http://172.16.2.68:3000/" target="_blank" rel="noopener" data-tip="Technical drawing tool for the R&amp;D team.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="24" cy="24" r="19" fill="url(#g7)"/>
@@ -392,7 +425,7 @@
       <div class="label">CADQ – Drawing for R&amp;D</div>
     </a>
 
-    <a class="tile" href="downloads/QualityPointTool.exe" download>
+    <a class="tile" href="downloads/QualityPointTool.exe" download data-tip="Windows desktop tool for QA to manage quality control points (QCP).">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="9" y="4" width="30" height="40" rx="3" fill="url(#g4)"/>
@@ -413,7 +446,7 @@
       <span class="badge">Download .exe</span>
     </a>
 
-    <a class="tile" href="downloads/SAWO%20Packing%20List%20Invoice%20Generator.exe" download>
+    <a class="tile" href="downloads/SAWO%20Packing%20List%20Invoice%20Generator.exe" download data-tip="Windows desktop tool for Import/Export that generates packing lists and invoices for shipments.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6" y="10" width="36" height="28" rx="3" fill="url(#g6)"/>
@@ -435,7 +468,7 @@
       <span class="badge">Download .exe</span>
     </a>
 
-    <a class="tile" href="http://172.16.2.68:8090/" target="_blank" rel="noopener">
+    <a class="tile" href="http://172.16.2.68:8090/" target="_blank" rel="noopener" data-tip="Enter an Odoo Sales Order number to see its lines, match each item to its label PDF, and preview or print the stickers. Read-only to Odoo.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6" y="8" width="36" height="32" rx="4" fill="url(#g9)"/>
@@ -454,7 +487,7 @@
       <div class="label">Odoo SO</div>
     </a>
 
-    <a class="tile" href="http://172.16.2.68:3001/" target="_blank" rel="noopener">
+    <a class="tile" href="http://172.16.2.68:3001/" target="_blank" rel="noopener" data-tip="Operations playbook: versioned SOPs with approvals, QR/PDF sharing, checklists, kanban cards and a skills matrix.">
       <div class="icon-box">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="7" y="6" width="34" height="36" rx="3" fill="url(#g10)"/>
@@ -472,6 +505,42 @@
         </svg>
       </div>
       <div class="label">SAWO Playbook</div>
+    </a>
+
+    <a class="tile" href="https://sawoaicad.vercel.app/login" target="_blank" rel="noopener" data-tip="Admin console for the AI sauna designer: customers describe their sauna in chat and AI generates a CAD-style drawing for sales follow-up. On hold.">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="36" height="36" rx="4" fill="url(#g11)"/>
+          <path d="M14 32 L22 16 L26 16 L34 32" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M17.5 26 L30.5 26" stroke="#ffffff" stroke-opacity="0.65" stroke-width="2.4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="g11" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#4FB8A8"/>
+              <stop offset="1" stop-color="#2D8577"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">SAWO AICAD</div>
+      <span class="badge hold">Hold</span>
+    </a>
+
+    <a class="tile" href="http://172.16.2.68:7000/" target="_blank" rel="noopener" data-tip="AI helpdesk chat that answers questions only from SAWO's internal knowledge base. Unanswered questions are logged for a human agent.">
+      <div class="icon-box">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 12a4 4 0 0 1 4-4h24a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H20l-8 7v-7a4 4 0 0 1-4-4z" fill="url(#g12)"/>
+          <circle cx="17" cy="20" r="2.2" fill="#ffffff" fill-opacity="0.9"/>
+          <circle cx="24" cy="20" r="2.2" fill="#ffffff" fill-opacity="0.75"/>
+          <circle cx="31" cy="20" r="2.2" fill="#ffffff" fill-opacity="0.6"/>
+          <defs>
+            <linearGradient id="g12" x1="8" y1="8" x2="40" y2="39" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#5B8DEF"/>
+              <stop offset="1" stop-color="#3461C1"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="label">SAWO Helpdesk</div>
     </a>
 
   </div>
