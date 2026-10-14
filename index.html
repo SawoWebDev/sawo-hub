@@ -260,6 +260,69 @@
   /* Tooltips can't be hovered on touch screens and overflow on narrow ones */
   @media (hover:none), (max-width:700px){
     a.tile[data-tip]::after{ display:none; }
+    .info-btn{ display:flex; }
+  }
+
+  /* Tap-to-read info button + description sheet (touch / narrow screens) */
+  .info-btn{
+    display:none;
+    position:absolute;
+    top:6px;
+    right:6px;
+    width:24px;
+    height:24px;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,0.92);
+    border:1px solid var(--card-border);
+    color:#6450C9;
+    font:700 13px/1 Georgia, serif;
+    font-style:italic;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .icon-box{ position:relative; }
+  #info-sheet{
+    position:fixed;
+    inset:0;
+    z-index:20;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(30,30,60,0.35);
+  }
+  #info-sheet.open{ display:flex; }
+  .info-card{
+    width:min(420px, 100%);
+    box-sizing:border-box;
+    background:#ffffff;
+    border-radius:18px 18px 0 0;
+    padding:20px 20px calc(20px + env(safe-area-inset-bottom));
+    box-shadow:0 -8px 30px rgba(30,30,60,0.2);
+  }
+  .info-card h3{ margin:0 0 6px; font-size:16px; color:#33334a; }
+  .info-card p{ margin:0 0 16px; font-size:13.5px; line-height:1.5; color:#55556a; }
+  .info-actions{ display:flex; gap:10px; }
+  .info-actions a, .info-actions button{
+    flex:1;
+    padding:11px 12px;
+    font-size:14px;
+    font-weight:600;
+    border-radius:10px;
+    text-align:center;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .info-actions a{
+    color:#fff;
+    background:linear-gradient(135deg, #6C9CF7, #6450C9);
+    border:none;
+  }
+  .info-actions button{
+    color:#33334a;
+    background:#fff;
+    border:1px solid var(--card-border);
   }
 
   /* Tablet: 3 columns */
@@ -609,6 +672,54 @@
 </main>
 
 </div>
+
+<div id="info-sheet" role="dialog" aria-modal="true" aria-labelledby="info-title">
+  <div class="info-card">
+    <h3 id="info-title"></h3>
+    <p id="info-desc"></p>
+    <div class="info-actions">
+      <button type="button" id="info-close">Close</button>
+      <a id="info-open" target="_blank" rel="noopener">Open</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var sheet = document.getElementById('info-sheet');
+  var title = document.getElementById('info-title');
+  var desc = document.getElementById('info-desc');
+  var open = document.getElementById('info-open');
+
+  function close(){ sheet.classList.remove('open'); }
+
+  document.querySelectorAll('a.tile[data-tip]').forEach(function(tile){
+    var box = tile.querySelector('.icon-box');
+    var label = tile.querySelector('.label');
+    var btn = document.createElement('span');
+    btn.className = 'info-btn';
+    btn.setAttribute('role', 'button');
+    btn.setAttribute('aria-label', 'About ' + label.textContent.trim());
+    btn.textContent = 'i';
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      title.textContent = label.textContent.trim();
+      desc.textContent = tile.getAttribute('data-tip');
+      open.href = tile.href;
+      if(tile.hasAttribute('download')){ open.setAttribute('download', ''); open.removeAttribute('target'); }
+      else { open.removeAttribute('download'); open.target = '_blank'; }
+      sheet.classList.add('open');
+    });
+    box.appendChild(btn);
+  });
+
+  document.getElementById('info-close').addEventListener('click', close);
+  open.addEventListener('click', close);
+  sheet.addEventListener('click', function(e){ if(e.target === sheet) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+})();
+</script>
 
 </body>
 </html>
