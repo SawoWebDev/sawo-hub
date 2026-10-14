@@ -252,6 +252,59 @@
   #hub-content{
     display:none;
   }
+
+  /* ---------- Responsive ---------- */
+  .gate-box{ width:min(260px, calc(100vw - 40px)); }
+  .grid{ width:100%; }
+
+  /* Tooltips can't be hovered on touch screens and overflow on narrow ones */
+  @media (hover:none), (max-width:700px){
+    a.tile[data-tip]::after{ display:none; }
+  }
+
+  /* Tablet: 3 columns */
+  @media (max-width:900px){
+    header{ padding:24px 24px 8px; }
+    main{ padding:20px 24px 48px; }
+    .grid{
+      grid-template-columns:repeat(3, minmax(0, 136px));
+      gap:22px 24px;
+    }
+  }
+
+  /* Large phones / small tablets: 2 fluid columns */
+  @media (max-width:560px){
+    header{ padding:20px 16px 4px; }
+    header h1{ font-size:20px; }
+    header p{ font-size:12.5px; }
+    main{ padding:16px 16px 40px; }
+    .grid{
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:20px 14px;
+      max-width:400px;
+    }
+    .icon-box{
+      width:min(100%, 104px);
+      height:auto;
+      aspect-ratio:1 / 1;
+    }
+    .icon-box svg{ width:50%; height:50%; }
+    .label{ max-width:100%; font-size:13px; padding:0 4px; }
+    .bg-hub{ right:-100px; bottom:-100px; width:min(360px, 90vw); }
+    .gate-box{ padding:28px 22px; }
+  }
+
+  /* Very small phones */
+  @media (max-width:340px){
+    .grid{ gap:16px 10px; }
+    .label{ font-size:12px; }
+  }
+
+  /* Landscape phones: keep gate usable with short viewport */
+  @media (max-height:480px){
+    #gate{ align-items:flex-start; overflow-y:auto; padding:12px 0; }
+    .gate-box{ margin:auto; padding:20px 22px; }
+  }
 </style>
 </head>
 <body>
