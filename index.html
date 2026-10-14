@@ -250,7 +250,7 @@
     margin:10px 0 0 0;
   }
   #hub-content{
-    display:none;
+    display:contents;
   }
 
   /* ---------- Responsive ---------- */
@@ -308,17 +308,6 @@
 </style>
 </head>
 <body>
-
-<div id="gate">
-  <div class="gate-box">
-    <img src="logo-sawo.png" alt="SAWO logo">
-    <h2>SAWO Hub</h2>
-    <p>Enter password to continue</p>
-    <input type="password" id="pin" placeholder="Password" autocomplete="off">
-    <button id="unlock">Unlock</button>
-    <p id="gate-error">Incorrect password</p>
-  </div>
-</div>
 
 <div id="hub-content">
 
@@ -620,41 +609,6 @@
 </main>
 
 </div>
-
-<script>
-(function(){
-  var PIN = "adminSAWO!";
-  var gate = document.getElementById('gate');
-  var content = document.getElementById('hub-content');
-  var input = document.getElementById('pin');
-  var btn = document.getElementById('unlock');
-  var err = document.getElementById('gate-error');
-
-  function unlock(){
-    if(input.value === PIN){
-      try{ localStorage.setItem('sawoHubUnlocked','1'); }catch(e){}
-      gate.style.display = 'none';
-      content.style.display = 'contents';
-    } else {
-      err.style.display = 'block';
-      input.value = '';
-      input.focus();
-    }
-  }
-
-  btn.addEventListener('click', unlock);
-  input.addEventListener('keydown', function(e){ if(e.key === 'Enter') unlock(); });
-
-  var alreadyUnlocked = false;
-  try{ alreadyUnlocked = localStorage.getItem('sawoHubUnlocked') === '1'; }catch(e){}
-  if(alreadyUnlocked){
-    gate.style.display = 'none';
-    content.style.display = 'contents';
-  } else {
-    input.focus();
-  }
-})();
-</script>
 
 </body>
 </html>
